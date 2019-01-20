@@ -1,0 +1,11 @@
+{% extends 'core/base.html' %}
+
+{% block title %} News {% endblock title %}
+
+{% block navigation %}
+  {% include 'core/banner.html' %}
+  {% include 'core/navbar.html' %}
+{% endblock navigation %}
+{% block content %}
+  {% include 'news/content.html' %}
+{% endblock content %}
