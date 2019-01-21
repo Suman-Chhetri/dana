@@ -85,7 +85,7 @@ DATABASES = {
         'NAME': 'dana_project',
         'USER': 'danapani',
         'PASSWORD': 'danapani',
-        'HOST': 'db',
+        'HOST': 'localhost',
         'PORT': '5432',    }
 }
 
