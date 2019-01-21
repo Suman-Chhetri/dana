@@ -1,4 +1,4 @@
-# start from an official image
+﻿# start from an official image
 FROM python:3.7
 
 # arbitrary location choice: you can change the directory
@@ -15,7 +15,6 @@ ENV PYTHONUNBUFFERED 1
 # copy our project code
 COPY . /opt/services/djangoapp/src
 RUN cd dana && python manage.py collectstatic --no-input
-RUN cd dana && python manage.py makemigrations && python manage.py migrate # <-- here
 
 # expose the port 8000
 EXPOSE 8000

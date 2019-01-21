@@ -11,7 +11,7 @@ services:
     networks:
       - web_network
       - db_network  # <-- connect to the bridge
-    depends_on:  # <-- wait for db to be "ready" before starting the app
+    links:
       - db
 
   web:
@@ -22,6 +22,7 @@ services:
       - ./config/nginx/conf.d:/etc/nginx/conf.d
       - static_volume:/opt/services/djangoapp/static  # <-- bind the static volume
       - media_volume:/opt/services/djangoapp/media  # <-- bind the media volume
+
     depends_on:
       - web_app
     networks:
