@@ -1,0 +1,20 @@
+{% extends 'core/base.html' %}
+
+{% block navigation %}
+  {% include 'core/banner.html' %}
+{% endblock navigation %}
+
+{% block title %} Home {% endblock title %}
+
+{% block content %}
+  
+  {% include 'core/intro.html' %}
+  
+  {% include 'core/about.html' %}
+
+  {% include 'core/team.html' %}
+
+  {% include 'core/services.html' %}
+
+
+{% endblock content %}

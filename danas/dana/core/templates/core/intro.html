@@ -1,0 +1,58 @@
+{% load staticfiles %}
+<!-- about -->
+<section class="about-w3ls py-md-5 py-3" id="about">
+    <div class="container">
+        <div class="row py-sm-5 py-3">
+            <div class="col-lg-8">
+                <div class="order-lg-0 order-1">
+                    <h4 class="w3l-sub pb-lg-5 pb-3"> संघको परिचय :</h4>
+                    <p class="lead pr-lg-5 about-text-wthree text-justify ">
+                        {% for intro in intro_view|slice:":1" %}
+                            {{ intro.content }}
+                        {% endfor %}
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4 mt-lg-0 mt-5">
+                <div class="agileits-abt-grids">
+                    <div class="d-flex">
+                        <span class="fas fa-home"></span>
+                        <p class="text-md lead"> पोल्ट्री व्यबसाय हिजो र आज: </p>
+                    </div>
+                    <!-- <p class="lead about-text-wthree text-justify mt-2 ">
+                           Header
+                    </p> -->
+                    <div class="table-responsive mt-4">
+                                <!-- <p class="lead about-text-wthree text-justify">
+                                asdasd
+                                </p> -->
+                        <table class="table">
+                            <tr>
+                                <th>  संलग्न परिवार संख्या </th>
+                                <th>७०,००</th>
+                            </tr> 
+                            <tr>
+                                <th>  यस व्यवसायको लगानी </th>
+                                <th>रु. २२ अर्ब</th>
+                            </tr> 
+                            <tr>
+                                <th> कुल ग्राहस्थ उत्पादनमा योगदान </th>
+                                <th>४ प्रतिशत</th>
+                            </tr>
+                            <tr> 
+                                <th>  प्रति व्यक्ति अण्डा खपत प्रति वर्ष  </th>
+                                <th>५५ वटा </th>
+                            </tr>
+                            <tr> 
+                                <th> प्रति व्यक्ति मासु खपत प्रति वर्ष  </th>
+                                <th>४.५ के.जी.</th>
+                            </tr> 
+
+                        </table>                           
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- //about -->

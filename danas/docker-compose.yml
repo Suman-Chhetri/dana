@@ -1,0 +1,64 @@
+version: '3'
+
+services:
+
+  djangoapps:
+    build: .
+    volumes:
+      - .:/opt/services/djangoapp/src
+      - static_volume:/opt/services/djangoapp/src/dana/staticfiles  # <-- bind the static volume
+      - media_volume:/opt/services/djangoapp/src/dana/media # <-- bind the media volume
+    networks:
+      - nginx_networks
+      - mitra_networks  # <-- connect to the bridge
+    depends_on:  # <-- wait for db to be "ready" before starting the app
+      - mitras
+
+  nginxx:
+    image: nginx:latest
+    ports:
+      - 8500:80
+    volumes:
+      - ./config/nginx/conf.d:/etc/nginx/conf.d
+      - static_volume:/opt/services/djangoapp/src/dana/staticfiles  # <-- bind the static volume
+      - media_volume:/opt/services/djangoapp/src/dana/media # <-- bind media volume
+    depends_on:
+      - djangoapps
+    networks:
+      - nginx_networks
+
+  mitras:  # <-- IMPORTANT: same name as in DATABASES setting, otherwise Django won't find the database!
+    image: postgres:latest
+    env_file:  # <-- we use the previously defined values
+      - config/db/danapani_env
+    networks:  # <-- connect to the bridge
+      - mitra_networks
+    volumes:
+      - mitra_volumes:/var/lib/postgresql/data
+
+  pgadmins:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+    volumes:
+       - pgadminss:/root/.pgadmin
+    ports:
+      - 5060:80
+    networks:
+      - mitra_networks
+    restart: unless-stopped
+    logging:
+      driver: none
+
+networks:
+  nginx_networks:
+    driver: bridge
+  mitra_networks:  # <-- add the bridge
+    driver: bridge
+
+volumes:
+  mitra_volumes:
+  pgadminss:
+  static_volume:
+  media_volume:

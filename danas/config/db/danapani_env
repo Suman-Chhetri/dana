@@ -1,0 +1,3 @@
+POSTGRES_USER=danapani
+POSTGRES_PASSWORD=danapani
+POSTGRES_DB=dana_project
