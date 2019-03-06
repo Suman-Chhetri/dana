@@ -15,7 +15,7 @@
             <div class="col-lg-4 col-md-6 mb-3">
                 <div class="card border-0">
                     <div class="card-header p-0">
-                        <a href="blog.html">
+                        <a href="{% url 'news:news_detail' news.pk %}">
                             <img class="card-img-bottom" src='{{ news.picture.url }}' height="250" width="100" alt="Card image cap" class="img-responsive">
                         </a>
                     </div>

@@ -12,7 +12,8 @@ class IndexTemplateView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['users_list'] = CustomUser.objects.all()
+        context['home_page'] = 'active'
+        context['users_list'] = CustomUser.objects.all().order_by('rank', 'username')
         context['news_list'] = News.objects.all()
         context['intro_view'] = Intro.objects.all().order_by('-id')
         return context
@@ -23,7 +24,7 @@ class ContactTemplateView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['contact_page'] = 'active'
-        context['users_list'] = CustomUser.objects.all()
+        context['users_list'] = CustomUser.objects.all().order_by('rank', 'username')
         context['news_list'] = News.objects.all()
         return context
 
@@ -33,7 +34,18 @@ class AboutView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['about_page'] = 'active'
-        context['users_list'] = CustomUser.objects.all()
+        context['users_list'] = CustomUser.objects.all().order_by('rank', 'username')
+        context['news_list'] = News.objects.all()
+        context['intro_view'] = Intro.objects.all().order_by('-id')
+        return context
+
+class MembersView(TemplateView):
+    template_name ='core/members.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['members_page'] = 'active'
+        context['users_list'] = CustomUser.objects.all().order_by('rank', 'username')
         context['news_list'] = News.objects.all()
         context['intro_view'] = Intro.objects.all().order_by('-id')
         return context

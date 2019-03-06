@@ -4,7 +4,7 @@
     <div class="col-lg-4 header-left">
         <h3>
             <a class="navbar-brand text-center" style="color:#3c50af;" href="">
-                <img class="w-25" height="100px" src='{% static "images/logo.png" %}' />
+                <img class="w-25" height="150px" src='{% static "images/logo.png" %}' />
                 <span class="headerNameColor">नेपाल</span>
                 <span class="headerNameColor">दाना</span>
                 <span class="headerNameColor">उद्योग</span>
@@ -57,28 +57,31 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-lg-auto text-center">
                         <li class="nav-item active  mr-3">
-                            <a class="nav-link" href="">Home
+                            <a class="nav-link" href=""> गृहपृष्ठ
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
                         <li class="nav-item  mr-3">
-                            <a class="nav-link" href="#team">Members</a>
+                            <a class="nav-link" href="">कार्यसमिति</a>
                         </li>
                         <li class="nav-item  mr-3">
-                            <a class="nav-link" href="{% url 'news:news_list' %}">News</a>
+                            <a class="nav-link" href="{% url 'core:members' %}"> सदस्यहरु </a>
                         </li>
                         <li class="nav-item  mr-3">
-                            <a class="nav-link" href="{% url 'core:about' %}">About</a>
+                            <a class="nav-link" href="{% url 'news:news_list' %}"> गतिबिधि </a>
                         </li>
-                        
                         <li class="nav-item  mr-3">
-                            <a class="nav-link" href="">Photo Gallery</a>
+                            <a class="nav-link" href="{% url 'core:about' %}"> हाम्रो बारेमा </a>
                         </li>
+                        <li class="nav-item  mr-3">
+                            <a class="nav-link" href="#"> तस्बिरहरु  </a>
+                        </li>                        
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'core:contact' %}">Contact</a>
+                            <a class="nav-link" href="{% url 'core:contact' %}"> सम्पर्क </a>
                         </li>
                     </ul>
                 </div>
+               
 
             </nav>
         </header>

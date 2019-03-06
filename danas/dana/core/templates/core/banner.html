@@ -22,13 +22,25 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ml-lg-auto text-center">
                             <li class="nav-item  mr-3">
-                                <a class="nav-link" href="{% url 'core:index' %}">Home
-
-                                </a>
+                                <a class="nav-link" href="{% url 'core:index' %}"> गृहपृष्ठ </a>
+                            </li>
+                            <li class="nav-item  mr-3 {{ members2_page }}">
+                                <a class="nav-link" href="">कार्यसमिति</a>
+                            </li>
+                            <li class="nav-item  mr-3 {{ members_page }}">
+                                <a class="nav-link" href="{% url 'core:members' %}"> सदस्यहरु </a>
                             </li>
                             <li class="nav-item  mr-3 {{ news_page }}">
-                                <a class="nav-link" href="{% url 'news:news_list' %}">News</a>
+                                <a class="nav-link" href="{% url 'news:news_list' %}"> गतिबिधि </a>
                             </li>
+                            <li class="nav-item  mr-3 {{ about_page }}">
+                                <a class="nav-link" href="{% url 'core:about' %}"> हाम्रो बारेमा </a>
+                            </li>
+                            <li class="nav-item  mr-3 {{ image_page }}">
+                                <a class="nav-link" href="#"> तस्बिरहरु  </a>
+                            </li>                        
+                            <!--
+
                             <li class="nav-item dropdown mr-3 {{ other_page }}">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false">
@@ -41,8 +53,11 @@
                                     <a class="dropdown-item" href="{% url 'news:news_list' %}">Blog</a>
                                 </div>
                             </li>
+
+                            -->
+
                             <li class="nav-item {{ contact_page }} ">
-                                <a class="nav-link" href="{% url 'core:contact' %}">contact</a>
+                                <a class="nav-link" href="{% url 'core:contact' %}"> सम्पर्क </a>
                             </li>
                         </ul>
                     </div>

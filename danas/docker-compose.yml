@@ -7,7 +7,6 @@ services:
     volumes:
       - .:/opt/services/djangoapp/src
       - static_volume:/opt/services/djangoapp/src/dana/staticfiles  # <-- bind the static volume
-      - media_volume:/opt/services/djangoapp/src/dana/media # <-- bind the media volume
     networks:
       - nginx_networks
       - mitra_networks  # <-- connect to the bridge
@@ -21,7 +20,6 @@ services:
     volumes:
       - ./config/nginx/conf.d:/etc/nginx/conf.d
       - static_volume:/opt/services/djangoapp/src/dana/staticfiles  # <-- bind the static volume
-      - media_volume:/opt/services/djangoapp/src/dana/media # <-- bind media volume
     depends_on:
       - djangoapps
     networks:
@@ -61,4 +59,4 @@ volumes:
   mitra_volumes:
   pgadminss:
   static_volume:
-  media_volume:
+  

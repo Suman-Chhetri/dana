@@ -5,18 +5,22 @@
 
     <div class="container py-lg-5">
         <div class="text-center wthree-title pb-sm-5 pb-3">
-            <h4 class="w3l-sub pb-5">our team</h4>
-            <p class="mx-auto">
-              List of all the members
+            <h4 class="w3l-sub pb-5"> हाम्रो सदस्यहरु </h4>
+            <p class="mx-auto">              
+                हाल रहेका सदस्यहरुको विवरण
             </p>
         </div>
         <div class="row py-sm-5 pt-5">
-
-          {% for user in users_list %}
-            <div class="col-lg-3 col-sm-6 team-grids">
+          {% for user in users_list|slice:":4" %}
+        
+            <div class="col-lg-3 col-sm-6 mt-3 team-grids">
               <div class="team-effect">
-                {% if user.profile_prcture %}
-                    <img src='{{ user.profile_picture.url }}' height="100" width="100" alt="img" class="img-responsive">
+                {% if user.profile_picture != '' %}
+                    {% if user.profile_picture  %}
+                        <img src='/media/{{ user.profile_picture }}' height="100" width="100" alt="img" class="img-responsive">
+                    {% else %}
+                        <img src='{% static "/images/noprofile.jpg" %}' height="100" width="100" alt="img" class="img-responsive">
+                    {% endif %}    
                 {% else %}
                     <img src='{% static "/images/noprofile.jpg" %}' height="100" width="100" alt="img" class="img-responsive">
                 {% endif %}
@@ -53,6 +57,11 @@
           </div>
         {% endfor %}
 
+        </div>
+        <div class="col-md-12 col-sm-12">
+            <div class="offset-md-4 col-md-4 col-sm-12">
+                <a href="{% url 'core:members' %}" class="d-block mt-0 border text-center btn-lg blog_more"> सबै सदस्यहरु </a>
+            </div>
         </div>
     </div>
 </section>
