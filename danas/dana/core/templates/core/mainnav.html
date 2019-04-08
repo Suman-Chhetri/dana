@@ -2,6 +2,15 @@
 <!-- banner -->
 <div class="d-lg-flex banner-main">
     <div class="col-lg-4 header-left">
+        <h4>
+            <a class="navbar-brand text-center" style="color:#3c50af;" href="">
+                <span class="headerNameColor">NEPAL</span>
+                <span class="headerNameColor">FEED</span>
+                <span class="headerNameColor">INDUSTRIES</span>
+                <br>
+                <span class="headerNameColor">ASSOCIATION</span>
+            </a>
+        </h4>
         <h3>
             <a class="navbar-brand text-center" style="color:#3c50af;" href="">
                 <img class="w-25" height="150px" src='{% static "images/logo.png" %}' />
@@ -11,6 +20,7 @@
                 <span class="headerNameColor">संघ</span>
             </a>
         </h3>
+            
         <div class="banner-text-w3ls">
             <h3>परिचयः</h3>
             <p style=" text-align: justify; " >
@@ -62,7 +72,7 @@
                             </a>
                         </li>
                         <li class="nav-item  mr-3">
-                            <a class="nav-link" href="">कार्यसमिति</a>
+                            <a class="nav-link" href="{% url 'core:cmembers' %}">कार्यसमिति</a>
                         </li>
                         <li class="nav-item  mr-3">
                             <a class="nav-link" href="{% url 'core:members' %}"> सदस्यहरु </a>
@@ -74,7 +84,7 @@
                             <a class="nav-link" href="{% url 'core:about' %}"> हाम्रो बारेमा </a>
                         </li>
                         <li class="nav-item  mr-3">
-                            <a class="nav-link" href="#"> तस्बिरहरु  </a>
+                            <a class="nav-link" href="{% url 'core:gallery' %}"> तस्बिरहरु  </a>
                         </li>                        
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'core:contact' %}"> सम्पर्क </a>
@@ -94,6 +104,17 @@
                         <div class="d-flex">
                             <div class="slider-info">
                                 <h3>" पशुपंछी पालौ, स्वरोजगारी बनौ "</h3>
+                                <p></p>
+                            </div>
+                            <div class="logo-sign d-flex">
+                                <span class="align-self-center">NFIA</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="d-flex">
+                            <div class="slider-info">
+                                <h3>" सबैले खाऊ, सधै खाउ  स्वादमा मस्त,  बनौ तन्दुरुस्त "</h3>
                                 <p></p>
                             </div>
                             <div class="logo-sign d-flex">

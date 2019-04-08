@@ -3,7 +3,7 @@
     <div class="d-lg-flex banner-main">
         <div class="col-lg-4 header-left">
             <h1>
-                <a class="navbar-brand text-center" href="">
+                <a class="navbar-brand text-center" style="color:#3c50af;" href="">
                   <span>ने</span>पाल
                   <span>दा</span>ना
                   <span>उ</span>द्योग
@@ -25,7 +25,7 @@
                                 <a class="nav-link" href="{% url 'core:index' %}"> गृहपृष्ठ </a>
                             </li>
                             <li class="nav-item  mr-3 {{ members2_page }}">
-                                <a class="nav-link" href="">कार्यसमिति</a>
+                                <a class="nav-link" href="{% url 'core:cmembers' %}">कार्यसमिति</a>
                             </li>
                             <li class="nav-item  mr-3 {{ members_page }}">
                                 <a class="nav-link" href="{% url 'core:members' %}"> सदस्यहरु </a>
@@ -37,7 +37,7 @@
                                 <a class="nav-link" href="{% url 'core:about' %}"> हाम्रो बारेमा </a>
                             </li>
                             <li class="nav-item  mr-3 {{ image_page }}">
-                                <a class="nav-link" href="#"> तस्बिरहरु  </a>
+                                <a class="nav-link" href="{% url 'core:gallery' %}"> तस्बिरहरु  </a>
                             </li>                        
                             <!--
 

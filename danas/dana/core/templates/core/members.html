@@ -10,8 +10,25 @@
 
 {% block content %}
 
-<!-- team -->
 <section class="agileits-services my-5 py-md-5 py-3" id="team">
+
+    <div class="container py-lg-5">
+        <div class="text-center wthree-title pb-sm-5 pb-3">
+            <h4 class="w3l-sub pb-5"> हाम्रो सदस्य उद्योगहरु </h4>
+            <p class="mx-auto">              
+                हाल रहेका सदस्य उद्योगहरुको विवरण
+            </p>
+        </div>
+            <div class="row py-sm-5 pt-5">
+                <iframe src='{% static "/images/membersc.pdf" %}' style="width:80%; height:1000px; margin: 0% 10%;" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- team -->
+<!-- <section class="agileits-services my-5 py-md-5 py-3" id="team">
 
   <div class="container py-lg-5">
       <div class="text-center wthree-title pb-sm-5 pb-3">
@@ -19,8 +36,8 @@
           <p class="mx-auto">              
               हाल रहेका सदस्यहरुको विवरण
           </p>
-      </div>
-      <div class="row py-sm-5 pt-5">
+      </div> -->
+      <!-- <div class="row py-sm-5 pt-5">
         {% for user in users_list %}
       
           <div class="col-lg-3 col-sm-6 mt-3 team-grids">
@@ -34,9 +51,9 @@
               {% else %}
                   <img src='{% static "/images/noprofile.jpg" %}' height="100" width="100" alt="img" class="img-responsive">
               {% endif %}
-              </div>
+              </div> -->
             <!-- team text -->
-            <div class="footerv2-w3ls mt-3 text-center">
+            <!-- <div class="footerv2-w3ls mt-3 text-center">
                 <h4>{{ user.first_name }} {{  user.last_name }}</h4>
                 <h5>{{ user.role }}</h5>
                 <ul class="social-iconsv2 agileinfo pt-3">
@@ -61,14 +78,14 @@
                         </a>
                     </li>
                 </ul>
-            </div>
+            </div> -->
             <!-- //team text -->
-
+<!-- 
         </div>
-      {% endfor %}
+        {% endfor %}
 
       </div>
   </div>
-</section>
+</section> -->
 
 {% endblock content %}
