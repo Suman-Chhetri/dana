@@ -24,7 +24,7 @@ ADMIN_SITE_HEADER = "Nepal Dana Udhyog Administration"
 SECRET_KEY = '5ibky29=*-av056s#o8)+e!f$6tw@h08%goplo2(be&+9vy2)e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 

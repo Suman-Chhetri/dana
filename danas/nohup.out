@@ -1,0 +1,250 @@
+Building djangoapps
+Step 1/10 : FROM python:3.7
+ ---> db1c801f1c06
+Step 2/10 : RUN mkdir -p /opt/services/djangoapp/src
+ ---> Using cache
+ ---> 16c37e61eab1
+Step 3/10 : WORKDIR /opt/services/djangoapp/src
+ ---> Using cache
+ ---> f0abed5d9877
+Step 4/10 : COPY Pipfile Pipfile.lock /opt/services/djangoapp/src/
+ ---> Using cache
+ ---> d448760c16fd
+Step 5/10 : RUN pip install pipenv && pipenv install --system
+ ---> Using cache
+ ---> 021bb26fa9d1
+Step 6/10 : ENV PYTHONUNBUFFERED 1
+ ---> Using cache
+ ---> e8e97388fd74
+Step 7/10 : COPY . /opt/services/djangoapp/src
+ ---> 9c957e085015
+Step 8/10 : RUN cd dana && python manage.py collectstatic --no-input # <-- here
+ ---> Running in 320689d8f5af
+
+202 static files copied to '/opt/services/djangoapp/src/dana/staticfiles'.
+Removing intermediate container 320689d8f5af
+ ---> 6f830d5c8436
+Step 9/10 : EXPOSE 8000
+ ---> Running in 6c58c6befaa9
+Removing intermediate container 6c58c6befaa9
+ ---> f141d739bb6a
+Step 10/10 : CMD ["gunicorn", "--chdir", "dana", "--bind", ":8000", "dana.wsgi:application"]
+ ---> Running in 4123902c0575
+Removing intermediate container 4123902c0575
+ ---> 2ba7703d0538
+Successfully built 2ba7703d0538
+Successfully tagged danas_djangoapps:latest
+Starting danas_mitras_1 ... 
+Starting danas_pgadmins_1 ... 
+[2A[2KStarting danas_mitras_1   ... [32mdone[0m[2BRecreating danas_djangoapps_1 ... 
+[2A[2KStarting danas_pgadmins_1     ... [32mdone[0m[2B[1A[2KRecreating danas_djangoapps_1 ... [32mdone[0m[1BRecreating danas_nginxx_1     ... 
+[1A[2KRecreating danas_nginxx_1     ... [32mdone[0m[1BAttaching to danas_mitras_1, danas_pgadmins_1, danas_djangoapps_1, danas_nginxx_1
+[33mpgadmins_1    |[0m WARNING: no logs are available with the 'none' log driver
+[36mmitras_1      |[0m 2019-04-10 06:43:45.544 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+[36mmitras_1      |[0m 2019-04-10 06:43:45.544 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+[36mmitras_1      |[0m 2019-04-10 06:43:45.547 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+[32mdjangoapps_1  |[0m [2019-04-10 06:43:46 +0000] [1] [INFO] Starting gunicorn 19.9.0
+[36mmitras_1      |[0m 2019-04-10 06:43:45.560 UTC [22] LOG:  database system was shut down at 2019-04-10 06:43:04 UTC
+[32mdjangoapps_1  |[0m [2019-04-10 06:43:46 +0000] [1] [INFO] Listening at: http://0.0.0.0:8000 (1)
+[32mdjangoapps_1  |[0m [2019-04-10 06:43:46 +0000] [1] [INFO] Using worker: sync
+[36mmitras_1      |[0m 2019-04-10 06:43:45.567 UTC [1] LOG:  database system is ready to accept connections
+[32mdjangoapps_1  |[0m [2019-04-10 06:43:46 +0000] [8] [INFO] Booting worker with pid: 8
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:55:57 +0000] "GET /cmembers HTTP/1.1" 200 17865 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:55:57 +0000] "GET /static/images/members.pdf HTTP/1.1" 304 0 "http://localhost:8500/cmembers" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:55:57 +0000] "GET /favicon.ico HTTP/1.1" 404 4052 "http://localhost:8500/cmembers" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[32mdjangoapps_1  |[0m Not Found: /favicon.ico
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:56:05 +0000] "GET /members HTTP/1.1" 200 17691 "http://localhost:8500/cmembers" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:56:05 +0000] "GET /static/images/membersc.pdf HTTP/1.1" 200 44254 "http://localhost:8500/members" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[32mdjangoapps_1  |[0m Not Found: /favicon.ico
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:56:05 +0000] "GET /favicon.ico HTTP/1.1" 404 4052 "http://localhost:8500/members" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:56:32 +0000] "GET /news/ HTTP/1.1" 200 14534 "http://localhost:8500/members" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[32mdjangoapps_1  |[0m Not Found: /favicon.ico
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:56:32 +0000] "GET /favicon.ico HTTP/1.1" 404 4052 "http://localhost:8500/news/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:56:34 +0000] "GET / HTTP/1.1" 200 37876 "http://localhost:8500/news/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:59:40 +0000] "GET /cmembers HTTP/1.1" 200 17865 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[32mdjangoapps_1  |[0m Not Found: /favicon.ico
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:59:41 +0000] "GET /favicon.ico HTTP/1.1" 404 4052 "http://localhost:8500/members" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:59:41 +0000] "GET /members HTTP/1.1" 200 17691 "http://localhost:8500/cmembers" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:59:42 +0000] "GET /news/ HTTP/1.1" 200 14534 "http://localhost:8500/members" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:59:43 +0000] "GET /about HTTP/1.1" 200 21498 "http://localhost:8500/news/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[32mdjangoapps_1  |[0m Not Found: /favicon.ico
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:59:43 +0000] "GET /favicon.ico HTTP/1.1" 404 4052 "http://localhost:8500/about" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:59:47 +0000] "GET /gallery HTTP/1.1" 200 20740 "http://localhost:8500/about" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 2019/04/10 06:59:47 [warn] 6#6: *13 an upstream response is buffered to a temporary file /var/cache/nginx/proxy_temp/1/00/0000000001 while reading upstream, client: 172.31.0.1, server: localhost, request: "GET /media/images/gallery/5.jpg HTTP/1.1", upstream: "http://172.31.0.2:8000/media/images/gallery/5.jpg", host: "localhost:8500", referrer: "http://localhost:8500/gallery"
+[35mnginxx_1      |[0m 2019/04/10 06:59:47 [warn] 6#6: *10 an upstream response is buffered to a temporary file /var/cache/nginx/proxy_temp/2/00/0000000002 while reading upstream, client: 172.31.0.1, server: localhost, request: "GET /media/images/gallery/6.jpg HTTP/1.1", upstream: "http://172.31.0.2:8000/media/images/gallery/6.jpg", host: "localhost:8500", referrer: "http://localhost:8500/gallery"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:59:47 +0000] "GET /media/images/gallery/5.jpg HTTP/1.1" 200 12752320 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 2019/04/10 06:59:47 [warn] 6#6: *23 an upstream response is buffered to a temporary file /var/cache/nginx/proxy_temp/3/00/0000000003 while reading upstream, client: 172.31.0.1, server: localhost, request: "GET /media/images/gallery/9.jpg HTTP/1.1", upstream: "http://172.31.0.2:8000/media/images/gallery/9.jpg", host: "localhost:8500", referrer: "http://localhost:8500/gallery"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:59:48 +0000] "GET /media/images/gallery/9.jpg HTTP/1.1" 200 2069206 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 2019/04/10 06:59:48 [warn] 6#6: *24 an upstream response is buffered to a temporary file /var/cache/nginx/proxy_temp/4/00/0000000004 while reading upstream, client: 172.31.0.1, server: localhost, request: "GET /media/images/gallery/8.jpg HTTP/1.1", upstream: "http://172.31.0.2:8000/media/images/gallery/8.jpg", host: "localhost:8500", referrer: "http://localhost:8500/gallery"
+[35mnginxx_1      |[0m 2019/04/10 06:59:48 [warn] 6#6: *25 an upstream response is buffered to a temporary file /var/cache/nginx/proxy_temp/5/00/0000000005 while reading upstream, client: 172.31.0.1, server: localhost, request: "GET /media/images/gallery/7.jpg HTTP/1.1", upstream: "http://172.31.0.2:8000/media/images/gallery/7.jpg", host: "localhost:8500", referrer: "http://localhost:8500/gallery"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:59:48 +0000] "GET /media/images/gallery/8.jpg HTTP/1.1" 200 2872028 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 2019/04/10 06:59:48 [warn] 6#6: *22 an upstream response is buffered to a temporary file /var/cache/nginx/proxy_temp/6/00/0000000006 while reading upstream, client: 172.31.0.1, server: localhost, request: "GET /media/images/gallery/10.jpg HTTP/1.1", upstream: "http://172.31.0.2:8000/media/images/gallery/10.jpg", host: "localhost:8500", referrer: "http://localhost:8500/gallery"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:59:48 +0000] "GET /media/images/gallery/7.jpg HTTP/1.1" 200 2860458 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:59:48 +0000] "GET /media/images/gallery/6.jpg HTTP/1.1" 200 9266456 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:59:48 +0000] "GET /media/images/gallery/10.jpg HTTP/1.1" 200 3377767 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:59:48 +0000] "GET /media/images/gallery/11.jpg HTTP/1.1" 200 2776080 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:59:48 +0000] "GET /media/images/gallery/logo2.png HTTP/1.1" 304 0 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:59:48 +0000] "GET /media/images/gallery/4.jpg HTTP/1.1" 304 0 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:59:48 +0000] "GET /media/images/gallery/12.jpg HTTP/1.1" 304 0 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[32mdjangoapps_1  |[0m Not Found: /favicon.ico
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:59:49 +0000] "GET /favicon.ico HTTP/1.1" 404 4052 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:59:49 +0000] "GET /contact HTTP/1.1" 200 18455 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:59:49 +0000] "GET /static/images/contact.jpg HTTP/1.1" 200 371168 "http://localhost:8500/contact" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:59:49 +0000] "GET /gallery HTTP/1.1" 200 20740 "http://localhost:8500/contact" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:06:59:54 +0000] "GET /gallery HTTP/1.1" 200 20740 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:00:01 +0000] "GET / HTTP/1.1" 200 37876 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:58:56 +0000] "GET /cmembers HTTP/1.1" 200 17865 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[32mdjangoapps_1  |[0m Not Found: /favicon.ico
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:03 +0000] "GET /favicon.ico HTTP/1.1" 404 4052 "http://localhost:8500/members" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:03 +0000] "GET /members HTTP/1.1" 200 17691 "http://localhost:8500/cmembers" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:16 +0000] "GET /news/ HTTP/1.1" 200 14534 "http://localhost:8500/members" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:17 +0000] "GET /about HTTP/1.1" 200 21498 "http://localhost:8500/news/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:24 +0000] "GET / HTTP/1.1" 200 37876 "http://localhost:8500/about" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:24 +0000] "GET /static/images/5.jpg HTTP/1.1" 200 12752320 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:29 +0000] "GET /cmembers HTTP/1.1" 200 17865 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[32mdjangoapps_1  |[0m Not Found: /favicon.ico
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:30 +0000] "GET /favicon.ico HTTP/1.1" 404 4052 "http://localhost:8500/members" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:30 +0000] "GET /members HTTP/1.1" 200 17691 "http://localhost:8500/cmembers" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:31 +0000] "GET /news/ HTTP/1.1" 200 14534 "http://localhost:8500/members" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:32 +0000] "GET /about HTTP/1.1" 200 21498 "http://localhost:8500/news/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:32 +0000] "GET /gallery HTTP/1.1" 200 20740 "http://localhost:8500/about" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 2019/04/10 07:59:33 [warn] 6#6: *39 an upstream response is buffered to a temporary file /var/cache/nginx/proxy_temp/7/00/0000000007 while reading upstream, client: 172.31.0.1, server: localhost, request: "GET /media/images/gallery/5.jpg HTTP/1.1", upstream: "http://172.31.0.2:8000/media/images/gallery/5.jpg", host: "localhost:8500", referrer: "http://localhost:8500/gallery"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:33 +0000] "GET /media/images/gallery/5.jpg HTTP/1.1" 200 12752320 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:33 +0000] "GET /contact HTTP/1.1" 200 18455 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[32mdjangoapps_1  |[0m Not Found: /favicon.ico
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:34 +0000] "GET /favicon.ico HTTP/1.1" 404 4052 "http://localhost:8500/contact" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:34 +0000] "GET /gallery HTTP/1.1" 200 20740 "http://localhost:8500/contact" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 2019/04/10 07:59:34 [warn] 6#6: *42 an upstream response is buffered to a temporary file /var/cache/nginx/proxy_temp/8/00/0000000008 while reading upstream, client: 172.31.0.1, server: localhost, request: "GET /media/images/gallery/5.jpg HTTP/1.1", upstream: "http://172.31.0.2:8000/media/images/gallery/5.jpg", host: "localhost:8500", referrer: "http://localhost:8500/gallery"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:34 +0000] "GET /media/images/gallery/5.jpg HTTP/1.1" 200 12752320 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 2019/04/10 07:59:35 [warn] 6#6: *39 an upstream response is buffered to a temporary file /var/cache/nginx/proxy_temp/9/00/0000000009 while reading upstream, client: 172.31.0.1, server: localhost, request: "GET /media/images/gallery/5.jpg HTTP/1.1", upstream: "http://172.31.0.2:8000/media/images/gallery/5.jpg", host: "localhost:8500", referrer: "http://localhost:8500/gallery"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:35 +0000] "GET /media/images/gallery/5.jpg HTTP/1.1" 200 12752320 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:39 +0000] "GET / HTTP/1.1" 200 37876 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:40 +0000] "GET /static/images/5.jpg HTTP/1.1" 200 12752320 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:49 +0000] "GET /cmembers HTTP/1.1" 200 17865 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[32mdjangoapps_1  |[0m Not Found: /favicon.ico
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:50 +0000] "GET /favicon.ico HTTP/1.1" 404 4052 "http://localhost:8500/members" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:50 +0000] "GET /members HTTP/1.1" 200 17691 "http://localhost:8500/cmembers" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:51 +0000] "GET /news/ HTTP/1.1" 200 14534 "http://localhost:8500/members" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:52 +0000] "GET /about HTTP/1.1" 200 21498 "http://localhost:8500/news/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:52 +0000] "GET /gallery HTTP/1.1" 200 20740 "http://localhost:8500/about" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 2019/04/10 07:59:52 [warn] 6#6: *42 an upstream response is buffered to a temporary file /var/cache/nginx/proxy_temp/0/01/0000000010 while reading upstream, client: 172.31.0.1, server: localhost, request: "GET /media/images/gallery/5.jpg HTTP/1.1", upstream: "http://172.31.0.2:8000/media/images/gallery/5.jpg", host: "localhost:8500", referrer: "http://localhost:8500/gallery"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:53 +0000] "GET /media/images/gallery/5.jpg HTTP/1.1" 200 12752320 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:53 +0000] "GET /contact HTTP/1.1" 200 18455 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 2019/04/10 07:59:54 [warn] 6#6: *39 an upstream response is buffered to a temporary file /var/cache/nginx/proxy_temp/1/01/0000000011 while reading upstream, client: 172.31.0.1, server: localhost, request: "GET /media/images/gallery/5.jpg HTTP/1.1", upstream: "http://172.31.0.2:8000/media/images/gallery/5.jpg", host: "localhost:8500", referrer: "http://localhost:8500/gallery"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:54 +0000] "GET /media/images/gallery/5.jpg HTTP/1.1" 200 12752320 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:54 +0000] "GET /gallery HTTP/1.1" 200 20740 "http://localhost:8500/contact" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:07:59:59 +0000] "GET /about HTTP/1.1" 200 21498 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [10/Apr/2019:08:00:00 +0000] "GET /news/ HTTP/1.1" 200 14534 "http://localhost:8500/about" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[32mdjangoapps_1  |[0m [2019-04-10 08:17:10 +0000] [1] [CRITICAL] WORKER TIMEOUT (pid:8)
+[32mdjangoapps_1  |[0m [2019-04-10 08:17:10 +0000] [8] [INFO] Worker exiting (pid: 8)
+[32mdjangoapps_1  |[0m [2019-04-10 08:17:11 +0000] [9] [INFO] Booting worker with pid: 9
+[32mdjangoapps_1  |[0m [2019-04-10 11:09:06 +0000] [1] [CRITICAL] WORKER TIMEOUT (pid:9)
+[32mdjangoapps_1  |[0m [2019-04-10 11:09:06 +0000] [9] [INFO] Worker exiting (pid: 9)
+[32mdjangoapps_1  |[0m [2019-04-10 11:09:06 +0000] [10] [INFO] Booting worker with pid: 10
+[32mdjangoapps_1  |[0m [2019-04-10 12:27:04 +0000] [1] [CRITICAL] WORKER TIMEOUT (pid:10)
+[32mdjangoapps_1  |[0m [2019-04-10 12:27:04 +0000] [10] [INFO] Worker exiting (pid: 10)
+[32mdjangoapps_1  |[0m [2019-04-10 12:27:05 +0000] [11] [INFO] Booting worker with pid: 11
+[32mdjangoapps_1  |[0m [2019-04-11 01:15:04 +0000] [1] [CRITICAL] WORKER TIMEOUT (pid:11)
+[32mdjangoapps_1  |[0m [2019-04-11 01:15:04 +0000] [11] [INFO] Worker exiting (pid: 11)
+[32mdjangoapps_1  |[0m [2019-04-11 01:15:05 +0000] [12] [INFO] Booting worker with pid: 12
+[32mdjangoapps_1  |[0m [2019-04-11 03:00:15 +0000] [1] [CRITICAL] WORKER TIMEOUT (pid:12)
+[32mdjangoapps_1  |[0m [2019-04-11 03:00:15 +0000] [12] [INFO] Worker exiting (pid: 12)
+[32mdjangoapps_1  |[0m [2019-04-11 03:00:15 +0000] [13] [INFO] Booting worker with pid: 13
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:00:49 +0000] "GET / HTTP/1.1" 200 37876 "http://localhost:8500/news/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:02:30 +0000] "GET /cmembers HTTP/1.1" 200 17865 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:02:30 +0000] "GET /static/images/members.pdf HTTP/1.1" 200 43624 "http://localhost:8500/cmembers" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:02:34 +0000] "GET /members HTTP/1.1" 200 17691 "http://localhost:8500/cmembers" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[32mdjangoapps_1  |[0m Not Found: /favicon.ico
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:02:34 +0000] "GET /favicon.ico HTTP/1.1" 404 4052 "http://localhost:8500/members" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:02:34 +0000] "GET /static/images/membersc.pdf HTTP/1.1" 304 0 "http://localhost:8500/members" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:02:36 +0000] "GET /contact HTTP/1.1" 200 18455 "http://localhost:8500/members" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:02:37 +0000] "GET /gallery HTTP/1.1" 200 20740 "http://localhost:8500/contact" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:02:37 +0000] "GET /media/images/gallery/5.jpg HTTP/1.1" 304 0 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:02:37 +0000] "GET /media/images/gallery/4.jpg HTTP/1.1" 304 0 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:02:37 +0000] "GET /media/images/gallery/10.jpg HTTP/1.1" 304 0 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:02:37 +0000] "GET /media/images/gallery/11.jpg HTTP/1.1" 304 0 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:02:37 +0000] "GET /media/images/gallery/6.jpg HTTP/1.1" 304 0 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:02:37 +0000] "GET /media/images/gallery/9.jpg HTTP/1.1" 304 0 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:02:37 +0000] "GET /media/images/gallery/7.jpg HTTP/1.1" 304 0 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:02:37 +0000] "GET /media/images/gallery/8.jpg HTTP/1.1" 304 0 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:02:37 +0000] "GET /media/images/gallery/12.jpg HTTP/1.1" 304 0 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:02:38 +0000] "GET /about HTTP/1.1" 200 21498 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:02:39 +0000] "GET /news/ HTTP/1.1" 200 14534 "http://localhost:8500/about" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[32mdjangoapps_1  |[0m Not Found: /favicon.ico
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:02:40 +0000] "GET /favicon.ico HTTP/1.1" 404 4052 "http://localhost:8500/members" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:02:40 +0000] "GET /members HTTP/1.1" 200 17691 "http://localhost:8500/news/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:02:41 +0000] "GET /cmembers HTTP/1.1" 200 17865 "http://localhost:8500/members" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:02:42 +0000] "GET / HTTP/1.1" 200 37876 "http://localhost:8500/cmembers" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:02:42 +0000] "GET /static/images/5.jpg HTTP/1.1" 200 12752320 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:03:44 +0000] "GET /cmembers HTTP/1.1" 200 17865 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[32mdjangoapps_1  |[0m Not Found: /favicon.ico
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:03:45 +0000] "GET /favicon.ico HTTP/1.1" 404 4052 "http://localhost:8500/members" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:03:45 +0000] "GET /members HTTP/1.1" 200 17691 "http://localhost:8500/cmembers" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:03:46 +0000] "GET /news/ HTTP/1.1" 200 14534 "http://localhost:8500/members" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:03:47 +0000] "GET /about HTTP/1.1" 200 21498 "http://localhost:8500/news/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:03:48 +0000] "GET /gallery HTTP/1.1" 200 20740 "http://localhost:8500/about" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 2019/04/11 03:03:48 [warn] 6#6: *101 an upstream response is buffered to a temporary file /var/cache/nginx/proxy_temp/2/01/0000000012 while reading upstream, client: 172.31.0.1, server: localhost, request: "GET /media/images/gallery/5.jpg HTTP/1.1", upstream: "http://172.31.0.2:8000/media/images/gallery/5.jpg", host: "localhost:8500", referrer: "http://localhost:8500/gallery"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:03:49 +0000] "GET /media/images/gallery/5.jpg HTTP/1.1" 200 12752320 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:03:54 +0000] "GET /contact HTTP/1.1" 200 18455 "http://localhost:8500/gallery" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:03:57 +0000] "GET / HTTP/1.1" 200 37876 "http://localhost:8500/contact" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:03:03:57 +0000] "GET /static/images/5.jpg HTTP/1.1" 200 12752320 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[32mdjangoapps_1  |[0m [2019-04-11 06:00:50 +0000] [1] [CRITICAL] WORKER TIMEOUT (pid:13)
+[32mdjangoapps_1  |[0m [2019-04-11 06:00:50 +0000] [13] [INFO] Worker exiting (pid: 13)
+[32mdjangoapps_1  |[0m [2019-04-11 06:00:50 +0000] [14] [INFO] Booting worker with pid: 14
+[32mdjangoapps_1  |[0m [2019-04-11 06:10:15 +0000] [1] [CRITICAL] WORKER TIMEOUT (pid:14)
+[32mdjangoapps_1  |[0m [2019-04-11 06:10:15 +0000] [14] [INFO] Worker exiting (pid: 14)
+[32mdjangoapps_1  |[0m [2019-04-11 06:10:15 +0000] [15] [INFO] Booting worker with pid: 15
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:49:07 +0000] "GET / HTTP/1.1" 200 37876 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:49:07 +0000] "GET /static/css/bootstrap.css HTTP/1.1" 200 178152 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:49:07 +0000] "GET /static/css/style.css HTTP/1.1" 200 41648 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:49:07 +0000] "GET /static/css/fontawesome-all.min.css HTTP/1.1" 200 35359 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:49:07 +0000] "GET /static/css/prettyPhoto.css HTTP/1.1" 200 20773 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:49:07 +0000] "GET /static/images/1.jpg HTTP/1.1" 200 99082 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:49:07 +0000] "GET /static/images/noprofile.jpg HTTP/1.1" 200 2398 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:49:07 +0000] "GET /static/js/jquery-2.2.3.min.js HTTP/1.1" 200 85659 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:49:07 +0000] "GET /static/css/owl.carousel.css HTTP/1.1" 200 9134 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:49:07 +0000] "GET /static/js/owl.carousel.js HTTP/1.1" 200 37908 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:49:07 +0000] "GET /static/js/easing.js HTTP/1.1" 200 4759 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:49:07 +0000] "GET /static/js/SmoothScroll.min.js HTTP/1.1" 200 13797 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:49:07 +0000] "GET /static/images/chegg.jpg HTTP/1.1" 200 132779 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:49:07 +0000] "GET /static/images/a.jpg HTTP/1.1" 200 124472 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:49:07 +0000] "GET /static/images/b.jpg HTTP/1.1" 200 131371 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:49:07 +0000] "GET /static/images/3.jpg HTTP/1.1" 200 462126 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:49:07 +0000] "GET /static/images/d.jpg HTTP/1.1" 200 70178 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:49:07 +0000] "GET /static/images/e.jpg HTTP/1.1" 200 229213 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:49:07 +0000] "GET /static/images/f.jpg HTTP/1.1" 200 32190 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:49:07 +0000] "GET /static/images/6.jpg HTTP/1.1" 304 0 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:49:07 +0000] "GET /static/images/4.jpg HTTP/1.1" 304 0 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 2019/04/11 07:49:07 [warn] 6#6: *117 an upstream response is buffered to a temporary file /var/cache/nginx/proxy_temp/3/01/0000000013 while reading upstream, client: 172.31.0.1, server: localhost, request: "GET /media/images/profile_picture/Screenshot_2019-02-03_at_10.08.13_AM_iGRlrer.png HTTP/1.1", upstream: "http://172.31.0.2:8000/media/images/profile_picture/Screenshot_2019-02-03_at_10.08.13_AM_iGRlrer.png", host: "localhost:8500", referrer: "http://localhost:8500/"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:49:07 +0000] "GET /media/images/profile_picture/Screenshot_2019-02-03_at_10.08.13_AM_iGRlrer.png HTTP/1.1" 200 674182 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:49:07 +0000] "GET /static/images/5.jpg HTTP/1.1" 200 12752320 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:49:07 +0000] "GET /static/images/services.jpg HTTP/1.1" 200 210043 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:49:08 +0000] "GET /static/webfonts/fa-brands-400.woff2 HTTP/1.1" 200 54488 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:49:08 +0000] "GET /static/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 40148 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:49:08 +0000] "GET /static/webfonts/fa-regular-400.woff2 HTTP/1.1" 200 12240 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[32mdjangoapps_1  |[0m Not Found: /apple-touch-icon-precomposed.png
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:49:08 +0000] "GET /apple-touch-icon-precomposed.png HTTP/1.1" 404 4115 "-" "Safari/14606.4.5 CFNetwork/976 Darwin/18.2.0 (x86_64)" "-"
+[32mdjangoapps_1  |[0m Not Found: /apple-touch-icon.png
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:49:08 +0000] "GET /apple-touch-icon.png HTTP/1.1" 404 4079 "-" "Safari/14606.4.5 CFNetwork/976 Darwin/18.2.0 (x86_64)" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:56:14 +0000] "GET / HTTP/1.1" 200 37876 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:07:56:14 +0000] "GET /static/images/5.jpg HTTP/1.1" 200 12752320 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[35mnginxx_1      |[0m 172.31.0.1 - - [11/Apr/2019:08:03:58 +0000] "GET /static/images/move-top.png HTTP/1.1" 200 3477 "http://localhost:8500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15" "-"
+[32mdjangoapps_1  |[0m [2019-04-11 09:44:13 +0000] [15] [INFO] Worker exiting (pid: 15)
+[32mdjangoapps_1  |[0m [2019-04-11 09:44:13 +0000] [1] [INFO] Handling signal: term
+[33mUnexpected API error for danas_pgadmins_1 (HTTP code 502)
+Response body:
+Bad response from Docker engine
+
+[0m[36mUnexpected API error for danas_mitras_1 (HTTP code 502)
+Response body:
+Bad response from Docker engine
+
+[0m[35mUnexpected API error for danas_nginxx_1 (HTTP code 502)
+Response body:
+Bad response from Docker engine
+
+[0m[32mUnexpected API error for danas_djangoapps_1 (HTTP code 502)
+Response body:
+Bad response from Docker engine
+
+[0m

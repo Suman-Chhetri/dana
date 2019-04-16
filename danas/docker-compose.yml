@@ -16,7 +16,7 @@ services:
   nginxx:
     image: nginx:latest
     ports:
-      - 8500:80
+      - 80:80
     volumes:
       - ./config/nginx/conf.d:/etc/nginx/conf.d
       - static_volume:/opt/services/djangoapp/src/dana/staticfiles  # <-- bind the static volume
